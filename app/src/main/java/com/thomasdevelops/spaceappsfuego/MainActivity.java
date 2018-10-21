@@ -3,6 +3,7 @@ package com.thomasdevelops.spaceappsfuego;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.GoogleMap;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private GoogleMapsFragment gMapsFragment;
+    private android.support.v4.app.FragmentManager manager;
+    private GoogleMap mMap;
+    private MapsActivity mapsActivity;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(com.thomasdevelops.spaceappsfuego.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        mapsActivity = new MapsActivity();
+        mMap = mapsActivity.getMap();
+        loadMap();
     }
 
     @Override
@@ -76,6 +91,17 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     *
+     */
+    private void loadMap(){
+        gMapsFragment = new GoogleMapsFragment();
+        manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
+    }
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -93,9 +119,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_share) {
 
         } else if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_calendar) {
-            GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
-            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
+//            GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
+//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+//            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
