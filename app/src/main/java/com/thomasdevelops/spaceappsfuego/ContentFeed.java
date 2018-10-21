@@ -16,4 +16,8 @@ public class ContentFeed extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
+    private void loadFeed(){
+
+    }
 }

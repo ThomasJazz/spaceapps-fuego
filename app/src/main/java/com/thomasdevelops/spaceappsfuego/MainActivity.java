@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,8 +25,6 @@ public class MainActivity extends AppCompatActivity
     private android.support.v4.app.FragmentManager manager;
     private GoogleMap mMap;
     private MapsActivity mapsActivity;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_map) {
             GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
-            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
         }
 
