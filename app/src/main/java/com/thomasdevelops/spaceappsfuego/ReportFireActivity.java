@@ -20,8 +20,6 @@ public class ReportFireActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_fire);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         latText = (EditText) findViewById(R.id.latitude);
         lonText = (EditText)findViewById(R.id.longitude);
 
@@ -34,9 +32,11 @@ public class ReportFireActivity extends AppCompatActivity {
 
                 Log.v("Latitude: ", latitude);
                 Log.v("Longitude: ", longitude);
-                Toast.makeText(getApplicationContext(), "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_LONG).show();
                 Intent myIntent = new Intent(ReportFireActivity.this,
                         MainActivity.class);
+                myIntent.putExtra("latitude", latitude);
+                myIntent.putExtra("longitude", longitude);
                 startActivity(myIntent);
             }
         });

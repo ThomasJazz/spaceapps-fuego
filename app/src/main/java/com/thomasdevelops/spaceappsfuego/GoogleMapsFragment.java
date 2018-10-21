@@ -89,6 +89,27 @@ public class GoogleMapsFragment extends Fragment
             toast.show();
         }
 
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                // Creating a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+                // setting position for the marker
+                markerOptions.position(latLng);
+                // setting the title for the marker
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                // delete the old marker so we dont have multiple show up
+                map.clear();
+                // move camera to touched position
+                map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                // finally, add the marker to the map
+                map.addMarker(markerOptions);
+            }
+        });
+
+
+
+
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity
     private android.support.v4.app.FragmentManager manager;
     private GoogleMap mMap;
     private MapsActivity mapsActivity;
-
+    private double latitudeFireReported, longitudeFireReported;
 
 
     @Override
@@ -37,13 +38,24 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(com.thomasdevelops.spaceappsfuego.R.id.addfire);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent myIntent = new Intent(MainActivity.this,
+                        ReportFireActivity.class);
+                startActivity(myIntent);
             }
         });
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            latitudeFireReported = Double.valueOf(extras.getString("latitude"));
+            longitudeFireReported = Double.valueOf(extras.getString("longitude"));
+        }
+
+        Toast.makeText(getApplicationContext(), "Latitude: " + latitudeFireReported + "\nLongitude: " + longitudeFireReported, Toast.LENGTH_LONG).show();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
