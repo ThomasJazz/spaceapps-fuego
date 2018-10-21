@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "58627879476",
+    "firebase_url": "https://spaceapps-team-fuego.firebaseio.com",
+    "project_id": "spaceapps-team-fuego",
+    "storage_bucket": "spaceapps-team-fuego.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58627879476:android:932878307835194e",
+        "android_client_info": {
+          "package_name": "com.thomasdevelops.spaceappsfuego"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58627879476-6t89l7qq9gm637n826t09svcmhbuhbqb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thomasdevelops.spaceappsfuego",
+            "certificate_hash": "dc4d88734390469a8cc7e2bd241f85bb5290b03e"
+          }
+        },
+        {
+          "client_id": "58627879476-juk15flpbjninjshqt0vv6b79o037e07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6ue8YHHvUV_RKAJHjoCD_Xicv0xVTUqY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58627879476-juk15flpbjninjshqt0vv6b79o037e07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
