@@ -2,6 +2,8 @@ package com.thomasdevelops.spaceappsfuego;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -11,10 +13,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +27,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +40,7 @@ public class GoogleMapsFragment extends Fragment
 
     GoogleMap map;
     private Location currentLocation;
+    private EditText latText, lngText;
 
 
     public GoogleMapsFragment() {
@@ -60,7 +67,7 @@ public class GoogleMapsFragment extends Fragment
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        Context context = this.getContext();
+        final Context context = this.getContext();
         int duration  = Toast.LENGTH_LONG;
 
         // Check if we have permission to check user location
@@ -104,6 +111,11 @@ public class GoogleMapsFragment extends Fragment
                 map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 // finally, add the marker to the map
                 map.addMarker(markerOptions);
+                SharedPreferences preferences=context.getSharedPreferences("temp_marker",MODE_PRIVATE);
+                SharedPreferences.Editor editor=preferences.edit();
+                editor.putString("marker_lat", Double.toString(latLng.latitude));
+                editor.putString("marker_lng", Double.toString(latLng.longitude));
+                editor.commit();
             }
         });
 

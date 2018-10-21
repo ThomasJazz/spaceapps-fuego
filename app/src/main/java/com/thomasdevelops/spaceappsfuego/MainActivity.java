@@ -1,10 +1,15 @@
 package com.thomasdevelops.spaceappsfuego;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,9 +21,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.provider.Settings.Secure;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.thomasdevelops.spaceappsfuego.pojo.FireReport;
 
@@ -27,9 +36,10 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleMapsFragment gMapsFragment;
     private android.support.v4.app.FragmentManager manager;
-    private GoogleMap mMap;
+    private GoogleMap gMap;
     private MapsActivity mapsActivity;
     private double latitudeFireReported, longitudeFireReported;
+    private String markerLat, markerLng;
 
     final private FirebaseFirestore db = FirebaseFirestore.getInstance();
     final private String testReports = "reports_test";
@@ -41,7 +51,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         android_id = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+
         // Test if we were able to get unique android device id
         Toast.makeText(getApplicationContext(), android_id, Toast.LENGTH_LONG).show();
 
@@ -52,11 +64,19 @@ public class MainActivity extends AppCompatActivity
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(com.thomasdevelops.spaceappsfuego.R.id.addfire);
 
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(MainActivity.this,
                         ReportFireActivity.class);
+                SharedPreferences preferences=getSharedPreferences("temp_marker",MODE_PRIVATE);
+                String tempLat = preferences.getString("marker_lat", "");
+                String tempLng = preferences.getString("marker_lng", "");
+                EditText etLat = (EditText) view.findViewById(R.id.latitude);
+                EditText etLng = (EditText) view.findViewById(R.id.longitude);
+                myIntent.putExtra("Marker_Lat", tempLat);
+                myIntent.putExtra("Marker_Lng", tempLng);
                 startActivity(myIntent);
             }
         });
@@ -72,13 +92,6 @@ public class MainActivity extends AppCompatActivity
             db.collection(testReports).add(report);
         }
 
-        // add to database
-
-
-
-        // Toast for testing that we can pass lat lng through activities
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, com.thomasdevelops.spaceappsfuego.R.string.navigation_drawer_open, com.thomasdevelops.spaceappsfuego.R.string.navigation_drawer_close);
@@ -88,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(com.thomasdevelops.spaceappsfuego.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadMap();
+        gMap = loadMap();
     }
 
     @Override
@@ -124,13 +137,17 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
+
     /**
      *
      */
-    private void loadMap(){
+    private GoogleMap loadMap(){
         gMapsFragment = new GoogleMapsFragment();
         manager = getSupportFragmentManager();
         manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
+        return gMapsFragment.map;
     }
 
 
