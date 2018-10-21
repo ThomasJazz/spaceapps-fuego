@@ -53,9 +53,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(com.thomasdevelops.spaceappsfuego.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        mapsActivity = new MapsActivity();
-        mMap = mapsActivity.getMap();
         loadMap();
     }
 
@@ -108,20 +105,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_gallery) {
 
-        } else if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_slideshow) {
+        if (id == R.id.nav_chatter) {
 
-        } else if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
 
-        } else if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_share) {
-
-        } else if (id == com.thomasdevelops.spaceappsfuego.R.id.nav_calendar) {
-//            GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
-//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
+        } else if (id == R.id.nav_map) {
+            GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
