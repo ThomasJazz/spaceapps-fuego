@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -113,7 +115,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(com.thomasdevelops.spaceappsfuego.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadMap();
+        // with this we no longer need loadMap
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.mainLayout, new GoogleMapsFragment())
+                    .commit();
+            navigationView.setCheckedItem(R.id.nav_map);
+        }
     }
 
     @Override
@@ -148,37 +157,31 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
-    /**
-     *
-     */
-    private void loadMap(){
-        gMapsFragment = new GoogleMapsFragment();
-        manager = getSupportFragmentManager();
-        manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
-    }
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Intent intent;
+        // set up our manager and pop the last fragment off of it
+        FragmentManager manager = getSupportFragmentManager();
+        int stackSize = manager.getBackStackEntryCount();
 
-        if (id == R.id.nav_chatter) {
-            startActivity(new Intent(this,ContentFeed.class));
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_map) {
-//            GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
-//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
-        loadMap();
+        switch (id) {
+            case R.id.nav_chatter:
+                //startActivity(new Intent(this,ContentFeed.class));
+                manager.beginTransaction()
+                        .replace(R.id.mainLayout, new Fragment())
+                        .commit();
+                break;
+            case R.id.nav_settings:
+                break;
+            case R.id.nav_map:
+                GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
+                manager.beginTransaction()
+                        .replace(R.id.mainLayout, gMapsFragment)
+                        .commit();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
