@@ -2,7 +2,6 @@ package com.thomasdevelops.spaceappsfuego;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -13,8 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +50,7 @@ public class GoogleMapsFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(com.thomasdevelops.spaceappsfuego.R.layout.fragment_calendar, container, false);
+        View v =  inflater.inflate(com.thomasdevelops.spaceappsfuego.R.layout.fragment_maps, container, false);
         return v;
     }
 

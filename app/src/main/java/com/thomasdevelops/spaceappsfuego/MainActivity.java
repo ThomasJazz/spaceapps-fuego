@@ -36,10 +36,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.thomasdevelops.spaceappsfuego.pojo.FireReport;
 import static android.support.constraint.Constraints.TAG;
 
-
-
-
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -49,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private MapsActivity mapsActivity;
     private double latitudeFireReported, longitudeFireReported;
     private String markerLat, markerLng;
+    private DrawerLayout drawer;
 
     final private FirebaseFirestore db = FirebaseFirestore.getInstance();
     final private String testReports = "reports_test";
@@ -59,26 +56,32 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // set the initial content view
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+        // get users id
         android_id = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
-//        for(QueryDocumentSnapshot document : db.collection(testReports).get().getResult()){
-//            Log.d(TAG, document.getId() + " => " + document.getData());
-////            Toast.makeText(getApplicationContext(), document.getData().toString(), Toast.LENGTH_LONG).show();
-//        }
-
         // Test if we were able to get unique android device id
-        Toast.makeText(getApplicationContext(), android_id, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), android_id, Toast.LENGTH_LONG).show();
 
-        // set the initial content view
-        setContentView(com.thomasdevelops.spaceappsfuego.R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(com.thomasdevelops.spaceappsfuego.R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(com.thomasdevelops.spaceappsfuego.R.id.addfire);
+        // this is the navigation drawer
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle); //setDrawerListener is deprecated
+        toggle.syncState();
+
+        // floating button
+        FloatingActionButton fab = findViewById(R.id.addfire);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,25 +98,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
         // We get the extras from the intent which is returned when we come back from the ReportFireActivity
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if(extras != null) {
             latitudeFireReported = Double.valueOf(extras.getString("latitude"));
             longitudeFireReported = Double.valueOf(extras.getString("longitude"));
             Toast.makeText(getApplicationContext(), "Latitude: " + latitudeFireReported + "\nLongitude: " + longitudeFireReported, Toast.LENGTH_LONG).show();
             report = new FireReport(android_id, latitudeFireReported, longitudeFireReported);
             db.collection(testReports).add(report);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, com.thomasdevelops.spaceappsfuego.R.string.navigation_drawer_open, com.thomasdevelops.spaceappsfuego.R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle); //setDrawerListener is deprecated
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(com.thomasdevelops.spaceappsfuego.R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         // with this we no longer need loadMap
         if (savedInstanceState == null) {
@@ -127,7 +120,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -138,7 +131,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(com.thomasdevelops.spaceappsfuego.R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -150,7 +143,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == com.thomasdevelops.spaceappsfuego.R.id.action_settings) {
+        if (id == R.id.action_settings) {
             return true;
         }
 
@@ -171,7 +164,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_chatter:
                 //startActivity(new Intent(this,ContentFeed.class));
                 manager.beginTransaction()
-                        .replace(R.id.mainLayout, new Fragment())
+                        .replace(R.id.mainLayout, new SocFeed())
                         .commit();
                 break;
             case R.id.nav_settings:
@@ -184,7 +177,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
