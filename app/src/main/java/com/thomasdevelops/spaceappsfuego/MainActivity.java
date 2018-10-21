@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+<<<<<<< HEAD
 import android.support.v4.app.FragmentManager;
+=======
+import android.telephony.TelephonyManager;
+>>>>>>> 2fb34ce84b4c4b785578e3ad60dc456ba46dd238
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,9 +18,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.provider.Settings.Secure;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.thomasdevelops.spaceappsfuego.pojo.FireReport;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,10 +33,19 @@ public class MainActivity extends AppCompatActivity
     private android.support.v4.app.FragmentManager manager;
     private GoogleMap mMap;
     private MapsActivity mapsActivity;
+    private double latitudeFireReported, longitudeFireReported;
+
+    final private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final private String testReports = "reports_test";
+    private FireReport report;
+    private String android_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        android_id = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        // Test if we were able to get unique android device id
+        Toast.makeText(getApplicationContext(), android_id, Toast.LENGTH_LONG).show();
 
         // set the initial content view
         setContentView(com.thomasdevelops.spaceappsfuego.R.layout.activity_main);
@@ -36,13 +53,33 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(com.thomasdevelops.spaceappsfuego.R.id.addfire);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent myIntent = new Intent(MainActivity.this,
+                        ReportFireActivity.class);
+                startActivity(myIntent);
             }
         });
+
+
+        // We get the extras from the intent which is returned when we come back from the ReportFireActivity
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            latitudeFireReported = Double.valueOf(extras.getString("latitude"));
+            longitudeFireReported = Double.valueOf(extras.getString("longitude"));
+            Toast.makeText(getApplicationContext(), "Latitude: " + latitudeFireReported + "\nLongitude: " + longitudeFireReported, Toast.LENGTH_LONG).show();
+            report = new FireReport(android_id, latitudeFireReported, longitudeFireReported);
+            db.collection(testReports).add(report);
+        }
+
+        // add to database
+
+
+
+        // Toast for testing that we can pass lat lng through activities
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

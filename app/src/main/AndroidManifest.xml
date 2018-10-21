@@ -8,6 +8,8 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -45,6 +47,9 @@
             android:name=".ContentFeed"
             android:label="@string/title_activity_content_feed"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".ReportFireActivity"
+            android:label="ReportFireActivity"></activity>
     </application>
 
 </manifest>
