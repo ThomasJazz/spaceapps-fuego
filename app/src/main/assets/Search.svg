@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Search</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Prototype" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Fire-Map-1" transform="translate(-32.000000, -76.000000)" fill="#FFFFFF">
+            <g id="Group-6">
+                <g id="Group-5" transform="translate(19.000000, 68.000000)">
+                    <g id="Search" transform="translate(13.000000, 8.000000)">
+                        <path d="M18.8037402,17.8083864 L14.2992458,13.5516056 C17.4554578,10.5341876 17.5516324,5.6905041 14.5174494,2.56212101 C11.4832664,-0.566262075 6.39458133,-0.870087864 2.97209844,1.87279256 C-0.450384455,4.61567299 -0.993126873,9.43269361 1.74070926,12.8017837 C4.47454539,16.1708738 9.51560097,16.8974269 13.1779972,14.4502078 L17.7702415,18.8135239 C18.0583631,19.0686147 18.50735,19.0610878 18.7858214,18.7964985 C19.0642929,18.5319091 19.0722147,18.1053047 18.8037402,17.8315462 L18.8037402,17.8083864 Z M1,7.5 C1,3.91014913 4.13400675,1 8,1 C11.8659932,1 15,3.91014913 15,7.5 C15,11.0898509 11.8659932,14 8,14 C4.13400675,14 1,11.0898509 1,7.5 Z" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

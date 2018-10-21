@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-<<<<<<< HEAD
 import android.support.v4.app.FragmentManager;
-=======
 import android.telephony.TelephonyManager;
->>>>>>> 2fb34ce84b4c4b785578e3ad60dc456ba46dd238
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -145,13 +143,16 @@ public class MainActivity extends AppCompatActivity
         Intent intent;
 
         if (id == R.id.nav_chatter) {
-            startActivity(new Intent(this,ContentFeed.class));
+            //startActivity(new Intent(this,ContentFeed.class));
+            Fragment feed = new Fragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.mainLayout,feed).commit();
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_map) {
             GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
+            manager.beginTransaction().replace(R.id.mainLayout, gMapsFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);

@@ -43,10 +43,6 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".ContentFeed"
-            android:label="@string/title_activity_content_feed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".ReportFireActivity"
             android:label="ReportFireActivity"></activity>

@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -89,10 +90,7 @@ public class GoogleMapsFragment extends Fragment
             toast.show();
         }
 
-<<<<<<< HEAD
-        /* Create a new marker and delete the old one whenever a user taps on the map */
-=======
->>>>>>> 2fb34ce84b4c4b785578e3ad60dc456ba46dd238
+        // This lets the user place markers by tapping the map
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -102,11 +100,9 @@ public class GoogleMapsFragment extends Fragment
                 markerOptions.position(latLng);
                 // setting the title for the marker
                 markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-<<<<<<< HEAD
-                // delete the old marker
-=======
-                // delete the old marker so we dont have multiple show up
->>>>>>> 2fb34ce84b4c4b785578e3ad60dc456ba46dd238
+
+                // uses our custom icons
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_fire));
                 map.clear();
                 // move camera to touched position
                 map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -115,12 +111,6 @@ public class GoogleMapsFragment extends Fragment
             }
         });
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 2fb34ce84b4c4b785578e3ad60dc456ba46dd238
     }
 
     @Override
