@@ -39,6 +39,7 @@ public class GoogleMapsFragment extends Fragment
     GoogleMap map;
     private Location currentLocation;
     private EditText latText, lngText;
+    MarkerOptions markerOptions;
 
 
     public GoogleMapsFragment() {
@@ -86,8 +87,8 @@ public class GoogleMapsFragment extends Fragment
                 double longitude = location.getLongitude();
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 10));
             }
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            //Toast toast = Toast.makeText(context, text, duration);
+            //toast.show();
         } else {
             CharSequence text = "Sorry location permission not granted";
             Toast toast = Toast.makeText(context, text, duration);
@@ -99,7 +100,7 @@ public class GoogleMapsFragment extends Fragment
             @Override
             public void onMapClick(LatLng latLng) {
                 // Creating a marker
-                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions = new MarkerOptions();
                 // setting position for the marker
                 markerOptions.position(latLng);
                 // setting the title for the marker

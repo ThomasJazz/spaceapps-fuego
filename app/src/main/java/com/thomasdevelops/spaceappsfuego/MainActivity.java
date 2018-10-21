@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private double latitudeFireReported, longitudeFireReported;
     private String markerLat, markerLng;
     private DrawerLayout drawer;
+    private FloatingActionButton fab;
 
     final private FirebaseFirestore db = FirebaseFirestore.getInstance();
     final private String testReports = "reports_test";
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         // floating button
-        FloatingActionButton fab = findViewById(R.id.addfire);
+        fab = findViewById(R.id.addfire);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         if(extras != null) {
             latitudeFireReported = Double.valueOf(extras.getString("latitude"));
             longitudeFireReported = Double.valueOf(extras.getString("longitude"));
-            Toast.makeText(getApplicationContext(), "Latitude: " + latitudeFireReported + "\nLongitude: " + longitudeFireReported, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Latitude: " + latitudeFireReported + "\nLongitude: " + longitudeFireReported, Toast.LENGTH_LONG).show();
             report = new FireReport(android_id, latitudeFireReported, longitudeFireReported);
             db.collection(testReports).add(report);
         }
@@ -162,14 +163,16 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_chatter:
-                //startActivity(new Intent(this,ContentFeed.class));
+                fab.setVisibility(View.INVISIBLE);
                 manager.beginTransaction()
                         .replace(R.id.mainLayout, new SocFeed())
                         .commit();
                 break;
             case R.id.nav_settings:
+                fab.setVisibility(View.VISIBLE);
                 break;
             case R.id.nav_map:
+                fab.setVisibility(View.VISIBLE);
                 GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
                 manager.beginTransaction()
                         .replace(R.id.mainLayout, gMapsFragment)

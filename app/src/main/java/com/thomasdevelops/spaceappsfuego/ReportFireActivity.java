@@ -25,8 +25,7 @@ public class ReportFireActivity extends AppCompatActivity {
         if(extras != null){
             latText.setText(extras.getString("Marker_Lat"));
             lngText.setText(extras.getString("Marker_Lng"));
-            Toast.makeText(getApplicationContext(), "Marker Latitude: " + extras.getString("Marker_Lat") + "\nMarker Longitude: " + extras.get("Marker_Lng"), Toast.LENGTH_LONG).show();
-
+            //Toast.makeText(getApplicationContext(), "Marker Latitude: " + extras.getString("Marker_Lat") + "\nMarker Longitude: " + extras.get("Marker_Lng"), Toast.LENGTH_LONG).show();
         }
 
         Button reportFireButton = findViewById(R.id.submit_fire);
@@ -38,7 +37,7 @@ public class ReportFireActivity extends AppCompatActivity {
 
                 Log.v("Latitude: ", latitude);
                 Log.v("Longitude: ", longitude);
-//                Toast.makeText(getApplicationContext(), "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_LONG).show();
+               Toast.makeText(getApplicationContext(), "Fire successfully reported at: " + "\n\tLatitude: "+ latitude + "\n\tLongitude: " + longitude, Toast.LENGTH_LONG).show();
                 Intent myIntent = new Intent(ReportFireActivity.this,
                         MainActivity.class);
                 myIntent.putExtra("latitude", latitude);
