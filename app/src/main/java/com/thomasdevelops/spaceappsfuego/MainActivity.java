@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +30,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.thomasdevelops.spaceappsfuego.pojo.FireReport;
+import static android.support.constraint.Constraints.TAG;
+
+
+
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +60,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         android_id = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+
+//        for(QueryDocumentSnapshot document : db.collection(testReports).get().getResult()){
+//            Log.d(TAG, document.getId() + " => " + document.getData());
+////            Toast.makeText(getApplicationContext(), document.getData().toString(), Toast.LENGTH_LONG).show();
+//        }
 
         // Test if we were able to get unique android device id
         Toast.makeText(getApplicationContext(), android_id, Toast.LENGTH_LONG).show();
@@ -101,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(com.thomasdevelops.spaceappsfuego.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        gMap = loadMap();
+        loadMap();
     }
 
     @Override
@@ -143,11 +155,10 @@ public class MainActivity extends AppCompatActivity
     /**
      *
      */
-    private GoogleMap loadMap(){
+    private void loadMap(){
         gMapsFragment = new GoogleMapsFragment();
         manager = getSupportFragmentManager();
         manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
-        return gMapsFragment.map;
     }
 
 
@@ -164,9 +175,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_map) {
-            GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
-            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
+//            GoogleMapsFragment gMapsFragment = new GoogleMapsFragment();
+//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+//            manager.beginTransaction().replace(com.thomasdevelops.spaceappsfuego.R.id.mainLayout, gMapsFragment).commit();
+        loadMap();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
