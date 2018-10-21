@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,10 +14,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.provider.Settings.Secure;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.thomasdevelops.spaceappsfuego.pojo.FireReport;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,10 +31,19 @@ public class MainActivity extends AppCompatActivity
     private MapsActivity mapsActivity;
     private double latitudeFireReported, longitudeFireReported;
 
+    final private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final private String testReports = "reports_test";
+    private FireReport report;
+    private String android_id;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        android_id = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        // Test if we were able to get unique android device id
+        Toast.makeText(getApplicationContext(), android_id, Toast.LENGTH_LONG).show();
 
         // set the initial content view
         setContentView(com.thomasdevelops.spaceappsfuego.R.layout.activity_main);
@@ -48,13 +61,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+        // We get the extras from the intent which is returned when we come back from the ReportFireActivity
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             latitudeFireReported = Double.valueOf(extras.getString("latitude"));
             longitudeFireReported = Double.valueOf(extras.getString("longitude"));
+            Toast.makeText(getApplicationContext(), "Latitude: " + latitudeFireReported + "\nLongitude: " + longitudeFireReported, Toast.LENGTH_LONG).show();
+            report = new FireReport(android_id, latitudeFireReported, longitudeFireReported);
+            db.collection(testReports).add(report);
         }
 
-        Toast.makeText(getApplicationContext(), "Latitude: " + latitudeFireReported + "\nLongitude: " + longitudeFireReported, Toast.LENGTH_LONG).show();
+        // add to database
+
+
+
+        // Toast for testing that we can pass lat lng through activities
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.thomasdevelops.spaceappsfuego.R.id.drawer_layout);
